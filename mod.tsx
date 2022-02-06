@@ -27,18 +27,18 @@ export const ThemeContext = createContext<Theme>({
 
 export const useTheme = () => useContext(ThemeContext);
 
-interface Props {
-  children: ReactNode;
-  initialMode?: Mode;
-}
-
-const update = () => {
+export const updateDocument = () => {
   const mode = localStorage.theme || Mode.SYSTEM;
   mode === Mode.DARK || mode === Mode.SYSTEM &&
       matchMedia("(prefers-color-scheme: dark)").matches
     ? document.documentElement.classList.add("dark")
     : document.documentElement.classList.remove("dark");
 };
+
+interface Props {
+  children: ReactNode;
+  initialMode?: Mode;
+}
 
 export default function ThemeProvider(
   { children, initialMode = Mode.SYSTEM }: Props,
@@ -49,12 +49,12 @@ export default function ThemeProvider(
     mode === Mode.SYSTEM
       ? localStorage.removeItem("theme")
       : localStorage.setItem("theme", mode);
-    update();
+    updateDocument();
   }, [mode]);
 
   useEffect(() => {
     matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", update);
+      .addEventListener("change", updateDocument);
   }, []);
 
   const value = useMemo(
