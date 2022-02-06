@@ -1,5 +1,5 @@
 ### Just a theme provider for [Aleph.js](https://alephjs.org).
-```typescript
+```tsx
 // app.tsx
 import React, { FC } from "react";
 import ThemeProvider, { Mode } from "https://deno.land/x/aleph_provider_theme@v0.1.0/mod.tsx";
@@ -17,7 +17,7 @@ export default function App(
   );
 }
 ```
-```typescript
+```tsx
 // components/Header.tsx
 import React, { useCallback } from "react";
 import { Mode, useTheme } from "https://deno.land/x/aleph_provider_theme@v0.1.0/mod.tsx";
