@@ -3,7 +3,7 @@
 // app.tsx
 import React, { FC } from "react";
 import ThemeProvider, { Mode } from "https://deno.land/x/aleph_provider_theme@v0.1.0/mod.tsx";
-import Header from "~/components/Header.tsx"
+import Header from "~/components/Header.tsx";
 import "~/style/reset.css";
 
 export default function App(
