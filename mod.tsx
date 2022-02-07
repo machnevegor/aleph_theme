@@ -53,14 +53,12 @@ export default function ThemeProvider(
   }, [mode]);
 
   useEffect(() => {
-    matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", updateDocument);
+    const mediaQuery = matchMedia("(prefers-color-scheme: dark)");
+    mediaQuery.addEventListener("change", updateDocument);
+    return () => mediaQuery.removeEventListener("change", updateDocument);
   }, []);
 
-  const value = useMemo(
-    () => ({ mode, setMode }),
-    [mode],
-  );
+  const value = useMemo(() => ({ mode, setMode }), [mode]);
 
   return (
     <ThemeContext.Provider value={value}>
