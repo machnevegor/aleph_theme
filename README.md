@@ -3,7 +3,7 @@
 ```tsx
 // app.tsx
 import React, { FC } from "react";
-import ThemeProvider, { Mode } from "https://deno.land/x/aleph_provider_theme@v0.5.0/mod.tsx";
+import ThemeProvider, { Mode } from "https://deno.land/x/aleph_provider_theme@v1.1.0/mod.tsx";
 
 export default function App(
   { Page, pageProps }: { Page: FC; pageProps: Record<string, unknown> },
@@ -18,29 +18,63 @@ export default function App(
 
 ```tsx
 // components/ThemeToggler.tsx
-import React, { useCallback } from "react";
-import { Mode, useTheme } from "https://deno.land/x/aleph_provider_theme@v0.5.0/mod.tsx";
+import React from "react";
+import { Mode, useTheme } from "https://deno.land/x/aleph_provider_theme@v1.1.0/mod.tsx";
+
+interface SettingsItem {
+  label: string;
+  value: Mode;
+}
+
+const settings: SettingsItem[] = [
+  {
+    label: "Light Mode ⛅",
+    value: Mode.LIGHT,
+  },
+  {
+    label: "Dark Mode 🌑",
+    value: Mode.DARK,
+  },
+  {
+    label: "System Mode ⚡",
+    value: Mode.SYSTEM,
+  },
+];
 
 export default function ThemeToggler() {
   const { mode, setMode } = useTheme();
 
-  const toggleTheme = useCallback(
-    () => setMode(mode === Mode.LIGHT ? Mode.DARK : Mode.LIGHT),
-    [mode],
-  );
-
   return (
-    <button onClick={toggleTheme}>
-      {mode === Mode.LIGHT ? "Light Mode ⛅" : "Dark Mode 🌑"}
-    </button>
+    <div className="inline-block text-center" id="theme-toggler">
+      <button className="w-full px-4 py-2 font-medium rounded-md shadow-md focus:outline-none">
+        {settings.find(({ value }) => value === mode)?.label}
+      </button>
+      <ul className="mt-2 rounded-md shadow-md">
+        {settings.map(({ label, value }) => (
+          <li key={value}>
+            <button
+              className="w-full px-4 py-2 rounded-md hover:shadow focus:outline-none"
+              onClick={() => setMode(value)}
+            >
+              {label}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 ```
 
 ```css
 /* style/reset.css */
-.dark body
+#theme-toggler ul
 {
-    background-color: #000;
+    display: none;
+}
+
+#theme-toggler:hover ul
+{
+    display: block;
 }
 ```
