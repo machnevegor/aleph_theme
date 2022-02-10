@@ -42,13 +42,13 @@ const settings = [
 export default function ThemeToggler() {
   const { mode, setMode } = useTheme();
 
-  const toggleTheme = useCallback(
+  const onChange = useCallback(
     (event) => setMode(event.target.value),
     [],
   );
 
   return (
-    <select onChange={toggleTheme}>
+    <select onChange={onChange}>
       {settings.map(({ label, value, emoji }) => (
         <option value={value} selected={value === mode} key={value}>
           {emoji} {label}
