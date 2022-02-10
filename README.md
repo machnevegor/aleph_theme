@@ -19,7 +19,7 @@ export default function App(
 ```tsx
 // components/ThemeToggler.tsx
 import React, { useCallback } from "react";
-import { Mode, useTheme } from "https://deno.land/x/aleph_provider_theme@v1.1.0/mod.tsx";
+import { Mode, useTheme } from "theme";
 
 const settings = [
   {
@@ -50,11 +50,7 @@ export default function ThemeToggler() {
   return (
     <select onChange={toggleTheme}>
       {settings.map(({ label, value, emoji }) => (
-        <option
-          value={value}
-          selected={value === mode}
-          key={value}
-        >
+        <option value={value} selected={value === mode} key={value}>
           {emoji} {label}
         </option>
       ))}
@@ -75,11 +71,5 @@ export default function ThemeToggler() {
 {
     --text-color: #fff;
     --bg-color: #000;
-}
-
-body
-{
-    color: var(--text-color);
-    background-color: var(--bg-color);
 }
 ```
