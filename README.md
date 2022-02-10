@@ -3,7 +3,7 @@
 ```tsx
 // app.tsx
 import React, { FC } from "react";
-import ThemeProvider, { Mode } from "https://deno.land/x/aleph_provider_theme@v1.2.0/mod.tsx";
+import ThemeProvider, { Mode } from "https://deno.land/x/aleph_provider_theme@v1.4.0/mod.tsx";
 
 export default function App(
   { Page, pageProps }: { Page: FC; pageProps: Record<string, unknown> },
@@ -19,23 +19,29 @@ export default function App(
 ```tsx
 // components/ThemeToggler.tsx
 import React, { useCallback } from "react";
-import { Mode, useTheme } from "https://deno.land/x/aleph_provider_theme@v1.2.0/mod.tsx";
+import { Mode, useTheme } from "https://deno.land/x/aleph_provider_theme@v1.4.0/mod.tsx";
 
-const settings = [
+interface Option {
+  emoji: string;
+  label: string;
+  value: Mode;
+}
+
+const options: Option[] = [
   {
+    emoji: "⛅",
     label: "Light Mode",
     value: Mode.LIGHT,
-    emoji: "⛅",
   },
   {
+    emoji: "🌑",
     label: "Dark Mode",
     value: Mode.DARK,
-    emoji: "🌑",
   },
   {
+    emoji: "⚡",
     label: "System Mode",
     value: Mode.SYSTEM,
-    emoji: "⚡",
   },
 ];
 
@@ -49,7 +55,7 @@ export default function ThemeToggler() {
 
   return (
     <select onChange={onChange}>
-      {settings.map(({ label, value, emoji }) => (
+      {options.map(({ emoji, label, value }) => (
         <option value={value} selected={value === mode} key={value}>
           {emoji} {label}
         </option>
