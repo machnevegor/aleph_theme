@@ -18,63 +18,64 @@ export default function App(
 
 ```tsx
 // components/ThemeToggler.tsx
-import React from "react";
+import React, { useCallback } from "react";
 import { Mode, useTheme } from "https://deno.land/x/aleph_provider_theme@v1.1.0/mod.tsx";
 
-interface SettingsItem {
-  label: string;
-  value: Mode;
-}
-
-const settings: SettingsItem[] = [
+const settings = [
   {
-    label: "Light Mode ⛅",
+    label: "Light Mode",
     value: Mode.LIGHT,
+    emoji: "⛅",
   },
   {
-    label: "Dark Mode 🌑",
+    label: "Dark Mode",
     value: Mode.DARK,
+    emoji: "🌑",
   },
   {
-    label: "System Mode ⚡",
+    label: "System Mode",
     value: Mode.SYSTEM,
+    emoji: "⚡",
   },
 ];
 
 export default function ThemeToggler() {
   const { mode, setMode } = useTheme();
 
+  const toggleTheme = useCallback(
+    ({ target }) => setMode(target.value),
+    [],
+  );
+
   return (
-    <div className="inline-block text-center" id="theme-toggler">
-      <button className="w-full px-4 py-2 font-medium rounded-md shadow-md focus:outline-none">
-        {settings.find(({ value }) => value === mode)?.label}
-      </button>
-      <ul className="mt-2 rounded-md shadow-md">
-        {settings.map(({ label, value }) => (
-          <li key={value}>
-            <button
-              className="w-full px-4 py-2 rounded-md hover:shadow focus:outline-none"
-              onClick={() => setMode(value)}
-            >
-              {label}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <select onChange={toggleTheme}>
+      {settings.map(({ label, value, emoji }) => (
+        <option selected={value === mode} value={value} key={value}>
+          {emoji} {label}
+        </option>
+      ))}
+    </select>
   );
 }
 ```
 
 ```css
 /* style/reset.css */
-#theme-toggler ul
+:root
 {
-    display: none;
+    --text-color: #000;
+    --bg-color: #fff;
 }
 
-#theme-toggler:hover ul
+:root[class="dark"]
 {
-    display: block;
+    --text-color: #fff;
+    --bg-color: #000;
+}
+
+body
+{
+    color: var(--text-color);
+    background-color: var(--bg-color);
 }
 ```
