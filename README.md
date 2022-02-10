@@ -43,7 +43,7 @@ export default function ThemeToggler() {
   const { mode, setMode } = useTheme();
 
   const toggleTheme = useCallback(
-    ({ target }) => setMode(target.value),
+    (event) => setMode(event.target.value),
     [],
   );
 
