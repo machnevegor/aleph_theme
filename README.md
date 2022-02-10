@@ -19,39 +19,36 @@ export default function App(
 ```tsx
 // components/ThemeToggler.tsx
 import React, { useCallback } from "react";
-import { Mode, useTheme } from "theme";
+import { Mode, useTheme } from "https://deno.land/x/aleph_provider_theme@v1.1.0/mod.tsx";
 
 const settings = [
   {
-    label: "Light Mode",
+    label: "⛅ Light Mode",
     value: Mode.LIGHT,
-    emoji: "⛅",
   },
   {
-    label: "Dark Mode",
+    label: "🌑 Dark Mode",
     value: Mode.DARK,
-    emoji: "🌑",
   },
   {
-    label: "System Mode",
+    label: "⚡ System Mode",
     value: Mode.SYSTEM,
-    emoji: "⚡",
   },
 ];
 
 export default function ThemeToggler() {
   const { mode, setMode } = useTheme();
 
-  const toggleTheme = useCallback(
+  const toggleMode = useCallback(
     ({ target }) => setMode(target.value),
     [],
   );
 
   return (
-    <select onChange={toggleTheme}>
-      {settings.map(({ label, value, emoji }) => (
+    <select onChange={toggleMode}>
+      {settings.map(({ label, value }) => (
         <option value={value} selected={value === mode} key={value}>
-          {emoji} {label}
+          {label}
         </option>
       ))}
     </select>
