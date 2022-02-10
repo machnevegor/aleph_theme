@@ -3,7 +3,7 @@
 ```tsx
 // app.tsx
 import React, { FC } from "react";
-import ThemeProvider, { Mode } from "https://deno.land/x/aleph_provider_theme@v1.1.0/mod.tsx";
+import ThemeProvider, { Mode } from "https://deno.land/x/aleph_provider_theme@v1.2.0/mod.tsx";
 
 export default function App(
   { Page, pageProps }: { Page: FC; pageProps: Record<string, unknown> },
@@ -19,7 +19,7 @@ export default function App(
 ```tsx
 // components/ThemeToggler.tsx
 import React, { useCallback } from "react";
-import { Mode, useTheme } from "https://deno.land/x/aleph_provider_theme@v1.1.0/mod.tsx";
+import { Mode, useTheme } from "https://deno.land/x/aleph_provider_theme@v1.2.0/mod.tsx";
 
 const settings = [
   {
