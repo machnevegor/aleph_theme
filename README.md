@@ -23,16 +23,19 @@ import { Mode, useTheme } from "https://deno.land/x/aleph_provider_theme@v1.1.0/
 
 const settings = [
   {
-    label: "⛅ Light Mode",
+    label: "Light Mode",
     value: Mode.LIGHT,
+    emoji: "⛅",
   },
   {
-    label: "🌑 Dark Mode",
+    label: "Dark Mode",
     value: Mode.DARK,
+    emoji: "🌑",
   },
   {
-    label: "⚡ System Mode",
+    label: "System Mode",
     value: Mode.SYSTEM,
+    emoji: "⚡",
   },
 ];
 
@@ -46,9 +49,9 @@ export default function ThemeToggler() {
 
   return (
     <select onChange={toggleMode}>
-      {settings.map(({ label, value }) => (
+      {settings.map(({ label, value, emoji }) => (
         <option value={value} selected={value === mode} key={value}>
-          {label}
+          {emoji} {label}
         </option>
       ))}
     </select>
