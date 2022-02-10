@@ -50,7 +50,11 @@ export default function ThemeToggler() {
   return (
     <select onChange={toggleTheme}>
       {settings.map(({ label, value, emoji }) => (
-        <option selected={value === mode} value={value} key={value}>
+        <option
+          value={value}
+          selected={value === mode}
+          key={value}
+        >
           {emoji} {label}
         </option>
       ))}
