@@ -60,13 +60,13 @@ export default function ThemeToggler() {
 /* style/reset.css */
 :root
 {
-    --text-color: #000;
-    --bg-color: #fff;
+    --text-color: black;
+    --bg-color: white;
 }
 
 :root[class="dark"]
 {
-    --text-color: #fff;
-    --bg-color: #000;
+    --text-color: white;
+    --bg-color: black;
 }
 ```
