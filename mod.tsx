@@ -15,10 +15,10 @@ export enum Mode {
   SYSTEM = "system",
 }
 
-export interface Theme {
+export type Theme = {
   mode: Mode;
   setMode: Dispatch<SetStateAction<Mode>>;
-}
+};
 
 export const ThemeContext = createContext<Theme>({
   mode: Mode.SYSTEM,
@@ -35,10 +35,10 @@ export const updateDocument = () => {
     : document.documentElement.classList.remove("dark");
 };
 
-interface Props {
+type Props = {
   children: ReactNode;
   initialMode?: Mode;
-}
+};
 
 export default function ThemeProvider(
   { children, initialMode = Mode.SYSTEM }: Props,
