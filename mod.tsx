@@ -43,12 +43,10 @@ type Props = {
 export default function ThemeProvider(
   { children, initialMode = Mode.SYSTEM }: Props,
 ) {
-  const [mode, setMode] = useState(initialMode);
+  const [mode, setMode] = useState(localStorage.theme || initialMode);
 
   useEffect(() => {
-    mode === Mode.SYSTEM
-      ? localStorage.removeItem("theme")
-      : localStorage.setItem("theme", mode);
+    localStorage.setItem("theme", mode);
     updateDocument();
   }, [mode]);
 
