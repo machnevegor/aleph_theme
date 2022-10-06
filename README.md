@@ -1,14 +1,13 @@
-### Just a theme provider for [Aleph.js](https://alephjs.org).
+### Just a theme provider for [Aleph.js](https://aleph.deno.dev/).
 
 ```tsx
-// app.tsx
-import React, { FC } from "react";
+// routes/_app.tsx
 import ThemeProvider, {
   Mode,
-} from "https://deno.land/x/aleph_provider_theme@1.7.0/mod.tsx";
+} from "https://deno.land/x/aleph_theme@2.0.0/mod.tsx";
 
 export default function App(
-  { Page, pageProps }: { Page: FC; pageProps: Record<string, unknown> },
+  { children }: { children: React.ReactNode },
 ) {
   return (
     <ThemeProvider initialMode={Mode.SYSTEM}>
@@ -20,11 +19,8 @@ export default function App(
 
 ```tsx
 // components/ThemeToggler.tsx
-import React, { useCallback } from "react";
-import {
-  Mode,
-  useTheme,
-} from "https://deno.land/x/aleph_provider_theme@1.7.0/mod.tsx";
+import { useCallback } from "react";
+import { Mode, useTheme } from "https://deno.land/x/aleph_theme@2.0.0/mod.tsx";
 
 interface Option {
   emoji: string;
@@ -75,12 +71,12 @@ export default function ThemeToggler() {
 :root
 {
     --text-color: black;
-    --bg-color: white;
+    --wall-color: white;
 }
 
 :root[class="dark"]
 {
     --text-color: white;
-    --bg-color: black;
+    --wall-color: black;
 }
 ```
