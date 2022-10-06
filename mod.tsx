@@ -16,10 +16,10 @@ export enum Mode {
   SYSTEM = "system",
 }
 
-export interface Theme {
+export type Theme = {
   mode: Mode;
   setMode: Dispatch<SetStateAction<Mode>>;
-}
+};
 
 export const ThemeContext = createContext<Theme>({
   mode: Mode.SYSTEM,
@@ -37,12 +37,12 @@ export const updateDocument = () => {
     : document.documentElement.classList.remove("dark");
 };
 
-interface ProviderProps {
+interface Props {
   children: ReactNode;
   initialMode?: Mode;
 }
 
-const ThemeProvider: FC<ProviderProps> = (
+export const ThemeProvider: FC<Props> = (
   { children, initialMode = Mode.SYSTEM },
 ) => {
   const [mode, setMode] = useState(
@@ -56,17 +56,18 @@ const ThemeProvider: FC<ProviderProps> = (
 
   useEffect(() => {
     const query = matchMedia("(prefers-color-scheme: dark)");
+
     query.addEventListener("change", updateDocument);
-    return () => query.removeEventListener("change", updateDocument);
+    return () => {
+      query.removeEventListener("change", updateDocument);
+    };
   }, []);
 
-  const value = useMemo(() => ({ mode, setMode }), [mode]);
+  const theme = useMemo(() => ({ mode, setMode }), [mode]);
 
   return (
-    <ThemeContext.Provider value={value}>
+    <ThemeContext.Provider value={theme}>
       {children}
     </ThemeContext.Provider>
   );
 };
-
-export default ThemeProvider;
