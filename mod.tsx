@@ -1,7 +1,7 @@
 import React, {
   createContext,
   Dispatch,
-  ReactNode,
+  FC,
   SetStateAction,
   useContext,
   useEffect,
@@ -9,16 +9,18 @@ import React, {
   useState,
 } from "https://esm.sh/react@17.0.2";
 
+export const QUERY = "(prefers-color-scheme: dark)";
+
 export enum Mode {
   LIGHT = "light",
   DARK = "dark",
   SYSTEM = "system",
 }
 
-export type Theme = {
+export interface Theme {
   mode: Mode;
   setMode: Dispatch<SetStateAction<Mode>>;
-};
+}
 
 export const ThemeContext = createContext<Theme>({
   mode: Mode.SYSTEM,
@@ -30,19 +32,18 @@ export const useTheme = () => useContext(ThemeContext);
 export const updateDocument = () => {
   const mode = localStorage.theme || Mode.SYSTEM;
   mode === Mode.DARK || mode === Mode.SYSTEM &&
-      matchMedia("(prefers-color-scheme: dark)").matches
+      matchMedia(QUERY).matches
     ? document.documentElement.classList.add("dark")
     : document.documentElement.classList.remove("dark");
 };
 
-type Props = {
-  children: ReactNode;
+interface ThemeProps {
   initialMode?: Mode;
-};
+}
 
-export default function ThemeProvider(
-  { children, initialMode = Mode.SYSTEM }: Props,
-) {
+const ThemeProvider: FC<ThemeProps> = (
+  { children, initialMode = Mode.SYSTEM },
+) => {
   const [mode, setMode] = useState(localStorage.theme || initialMode);
 
   useEffect(() => {
@@ -51,9 +52,9 @@ export default function ThemeProvider(
   }, [mode]);
 
   useEffect(() => {
-    const mediaQuery = matchMedia("(prefers-color-scheme: dark)");
-    mediaQuery.addEventListener("change", updateDocument);
-    return () => mediaQuery.removeEventListener("change", updateDocument);
+    const query = matchMedia(QUERY);
+    query.addEventListener("change", updateDocument);
+    return () => query.removeEventListener("change", updateDocument);
   }, []);
 
   const value = useMemo(() => ({ mode, setMode }), [mode]);
@@ -63,4 +64,6 @@ export default function ThemeProvider(
       {children}
     </ThemeContext.Provider>
   );
-}
+};
+
+export default ThemeProvider;
