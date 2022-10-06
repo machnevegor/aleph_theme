@@ -38,7 +38,7 @@ const options: Option[] = [
 export default function ThemeToggler() {
   const { mode, setMode } = useTheme();
 
-  const onChange = React.useCallback(
+  const onChange = useCallback(
     (event) => setMode(event.target.value),
     [],
   );
