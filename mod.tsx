@@ -14,6 +14,15 @@ export enum Mode {
   SYSTEM = "system",
 }
 
+export function update() {
+  const mode: Mode = localStorage.theme ?? Mode.SYSTEM;
+
+  mode === Mode.DARK || mode === Mode.SYSTEM &&
+      matchMedia("(prefers-color-scheme: dark)").matches
+    ? document.documentElement.classList.add("dark")
+    : document.documentElement.classList.remove("dark");
+}
+
 export type Theme = {
   mode: Mode;
   setMode: Dispatch<SetStateAction<Mode>>;
@@ -23,15 +32,6 @@ export const ThemeContext = createContext<Theme>({
   mode: Mode.SYSTEM,
   setMode: () => {},
 });
-
-export function update() {
-  const mode: Mode = localStorage.theme ?? Mode.SYSTEM;
-
-  mode === Mode.DARK || mode === Mode.SYSTEM &&
-      matchMedia("(prefers-color-scheme: dark)").matches
-    ? document.documentElement.classList.add("dark")
-    : document.documentElement.classList.remove("dark");
-}
 
 export function ThemeProvider(
   { children }: { children: React.ReactNode },
