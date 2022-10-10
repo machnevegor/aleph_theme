@@ -5,13 +5,13 @@
 import {
   Mode,
   ThemeProvider,
-} from "https://deno.land/x/aleph_theme@2.0.0/mod.tsx";
+} from "https://deno.land/x/aleph_theme@2.1.0/mod.tsx";
 
 export default function App(
   { children }: { children: React.ReactNode },
 ) {
   return (
-    <ThemeProvider initialMode={Mode.SYSTEM}>
+    <ThemeProvider>
       {children}
     </ThemeProvider>
   );
@@ -21,36 +21,39 @@ export default function App(
 ```tsx
 /* components/ThemeToggler.tsx */
 import { useCallback } from "react";
-import { Mode, useTheme } from "https://deno.land/x/aleph_theme@2.0.0/mod.tsx";
+import { Mode, useTheme } from "https://deno.land/x/aleph_theme@2.1.0/mod.tsx";
 
-interface Option {
-  emoji: string;
-  label: string;
-  value: Mode;
-}
-
-const options: Option[] = [
-  { emoji: "⛅", label: "Light Mode", value: Mode.LIGHT },
-  { emoji: "🌑", label: "Dark Mode", value: Mode.DARK },
-  { emoji: "⚡", label: "System Mode", value: Mode.SYSTEM },
+const options = [
+  {
+    emoji: "⛅",
+    label: "Light Mode",
+    value: Mode.LIGHT,
+  },
+  {
+    emoji: "🌑",
+    label: "Dark Mode",
+    value: Mode.DARK,
+  },
+  {
+    emoji: "⚡",
+    label: "System Mode",
+    value: Mode.SYSTEM,
+  },
 ];
 
 export default function ThemeToggler() {
   const { mode, setMode } = useTheme();
 
   const onChange = useCallback(
-    (event) => setMode(event.target.value),
+    // deno-lint-ignore no-explicit-any
+    (event: any) => setMode(event.target.value),
     [],
   );
 
   return (
-    <select onChange={onChange}>
+    <select onChange={onChange} value={mode}>
       {options.map((option) => (
-        <option
-          value={option.value}
-          selected={option.value === mode}
-          key={option.value}
-        >
+        <option value={option.value} key={option.value}>
           {option.emoji} {option.label}
         </option>
       ))}

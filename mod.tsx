@@ -1,8 +1,6 @@
 import {
   createContext,
   Dispatch,
-  FC,
-  ReactNode,
   SetStateAction,
   useContext,
   useEffect,
@@ -26,42 +24,33 @@ export const ThemeContext = createContext<Theme>({
   setMode: () => {},
 });
 
-export const useTheme = () => useContext(ThemeContext);
-
-export const updateDocument = () => {
-  const mode = localStorage.theme || Mode.SYSTEM;
+export function update() {
+  const mode: Mode = localStorage.theme ?? Mode.SYSTEM;
 
   mode === Mode.DARK || mode === Mode.SYSTEM &&
       matchMedia("(prefers-color-scheme: dark)").matches
     ? document.documentElement.classList.add("dark")
     : document.documentElement.classList.remove("dark");
-};
-
-interface Props {
-  children: ReactNode;
-  initialMode?: Mode;
 }
 
-export const ThemeProvider: FC<Props> = (
-  { children, initialMode = Mode.SYSTEM },
-) => {
-  const [mode, setMode] = useState(
-    localStorage.theme || initialMode,
+export function ThemeProvider(
+  { children }: { children: React.ReactNode },
+) {
+  const [mode, setMode] = useState<Mode>(
+    localStorage.theme ?? Mode.SYSTEM,
   );
-
-  useEffect(() => {
-    localStorage.setItem("theme", mode);
-    updateDocument();
-  }, [mode]);
 
   useEffect(() => {
     const query = matchMedia("(prefers-color-scheme: dark)");
 
-    query.addEventListener("change", updateDocument);
-    return () => {
-      query.removeEventListener("change", updateDocument);
-    };
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
   }, []);
+
+  useEffect(() => {
+    localStorage.theme = mode;
+    update();
+  }, [mode]);
 
   const theme = useMemo(() => ({ mode, setMode }), [mode]);
 
@@ -70,4 +59,6 @@ export const ThemeProvider: FC<Props> = (
       {children}
     </ThemeContext.Provider>
   );
-};
+}
+
+export const useTheme = () => useContext(ThemeContext);
