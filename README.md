@@ -5,7 +5,7 @@
 import {
   Mode,
   ThemeProvider,
-} from "https://deno.land/x/aleph_theme@2.1.0/mod.tsx";
+} from "https://deno.land/x/aleph_theme@2.2.0/mod.tsx";
 
 export default function App(
   { children }: { children: React.ReactNode },
@@ -21,7 +21,7 @@ export default function App(
 ```tsx
 /* components/ThemeToggler.tsx */
 import { useCallback } from "react";
-import { Mode, useTheme } from "https://deno.land/x/aleph_theme@2.1.0/mod.tsx";
+import { Mode, useTheme } from "https://deno.land/x/aleph_theme@2.2.0/mod.tsx";
 
 const options = [
   {
@@ -46,7 +46,7 @@ export default function ThemeToggler() {
 
   const onChange = useCallback(
     // deno-lint-ignore no-explicit-any
-    (event: any) => setMode(event.target.value),
+    (e: any) => setMode(e.target.value),
     [],
   );
 

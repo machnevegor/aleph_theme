@@ -42,7 +42,6 @@ export function ThemeProvider(
 
   useEffect(() => {
     const query = matchMedia("(prefers-color-scheme: dark)");
-
     query.addEventListener("change", update);
     return () => query.removeEventListener("change", update);
   }, []);
